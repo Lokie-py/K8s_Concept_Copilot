@@ -1,0 +1,450 @@
+[
+  {
+    "id": "q1",
+    "question": "What is a Kubernetes Pod and what resources do containers inside a Pod share?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 3,
+    "expected_key_points": [
+      "A Pod is the smallest deployable unit of computing in Kubernetes",
+      "A Pod consists of one or more containers",
+      "Containers in a Pod share storage and network resources",
+      "Containers run in a shared context",
+      "A Pod models an application-specific logical host"
+    ],
+    "expected_source_keywords": [
+      "Pods",
+      "shared storage",
+      "network resources",
+      "shared context",
+      "logical host"
+    ]
+  },
+  {
+    "id": "q2",
+    "question": "A Kubernetes cluster has sufficient aggregate CPU and memory, but several individual nodes cannot satisfy a Pod's resource requests. Explain how the scheduler determines whether the Pod can be placed and why total cluster capacity alone is insufficient.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "The scheduler evaluates individual node capacity",
+      "CPU and memory resource requests are compared against node capacity",
+      "The sum of scheduled container requests must remain within node capacity",
+      "A Pod is rejected from a node when the capacity check fails",
+      "Unused aggregate resources on other nodes do not make an otherwise insufficient node eligible"
+    ],
+    "expected_source_keywords": [
+      "resource requests",
+      "node capacity",
+      "CPU",
+      "memory",
+      "capacity check",
+      "scheduler"
+    ]
+  },
+  {
+    "id": "q3",
+    "question": "Why can sequential scheduling of Pods from multiple workloads lead to a resource deadlock, and how does PodGroup scheduling change the scheduling decision to prevent this situation?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 3,
+    "expected_key_points": [
+      "The standard scheduler evaluates Pods sequentially",
+      "Multiple workloads can each consume part of the available cluster capacity",
+      "Neither workload may have enough remaining resources to start completely",
+      "This can create a resource deadlock",
+      "PodGroup scheduling evaluates the group as a single unit",
+      "If the complete group cannot be accommodated, none of its Pods are bound"
+    ],
+    "expected_source_keywords": [
+      "Pods sequentially",
+      "resource deadlocks",
+      "competing workloads",
+      "PodGroup scheduling",
+      "single unit",
+      "none of the Pods are bound"
+    ]
+  },
+  {
+    "id": "q4",
+    "question": "How does gang scheduling differ from ordinary Pod scheduling when a tightly coupled workload requires several Pods to become runnable together, and what happens when the cluster can satisfy only part of the workload?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 3,
+    "expected_key_points": [
+      "Gang scheduling applies to a group of Pods",
+      "The group is scheduled on an all-or-nothing basis",
+      "Partial placement is avoided",
+      "The scheduler can require the entire group or a defined minimum number of Pods",
+      "If the required group cannot be accommodated, the Pods are not bound"
+    ],
+    "expected_source_keywords": [
+      "Gang Scheduling",
+      "all-or-nothing",
+      "group of Pods",
+      "minimum number",
+      "none of the Pods are bound"
+    ]
+  },
+  {
+    "id": "q5",
+    "question": "Explain how a PodGroup moves through the gang scheduling process from the point where its Pods are created until the scheduler attempts placement, including the role of the PodGroup object, minCount, and the active scheduling queue.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Pods belonging to the PodGroup are held in the PreEnqueue phase",
+      "The referenced PodGroup object must exist",
+      "The number of Pods must reach minCount",
+      "Pods do not enter the active scheduling queue until the conditions are satisfied",
+      "After the quorum is met, the scheduler attempts placement for the group"
+    ],
+    "expected_source_keywords": [
+      "PreEnqueue",
+      "PodGroup object",
+      "minCount",
+      "active scheduling queue",
+      "quorum",
+      "GangScheduling"
+    ]
+  },
+  {
+    "id": "q6",
+    "question": "What happens when a container exceeds its resource request while the node is under resource pressure, and how does this differ from the scheduler's initial resource-capacity check when placing a Pod?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "A Pod can become a candidate for eviction under node resource pressure",
+      "Exceeding a resource request can contribute to eviction eligibility",
+      "Eviction occurs after the Pod is running under resource pressure",
+      "All containers in the evicted Pod are terminated",
+      "The scheduler's initial placement decision checks requested resources against node capacity"
+    ],
+    "expected_source_keywords": [
+      "resource pressure",
+      "eviction",
+      "resource request",
+      "capacity check",
+      "scheduler"
+    ]
+  },
+  {
+    "id": "q7",
+    "question": "Compare PodGroup scheduling and gang scheduling in terms of how they treat a collection of Pods, why they are needed for tightly coupled workloads, and how insufficient resources affect the final binding decision.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "PodGroup provides a group-level scheduling abstraction",
+      "Gang scheduling applies all-or-nothing scheduling behavior",
+      "Both address workloads where Pods need coordinated placement",
+      "Individual sequential scheduling can cause partial placement and resource deadlocks",
+      "Insufficient resources prevent the complete group from being bound"
+    ],
+    "expected_source_keywords": [
+      "PodGroup",
+      "Gang Scheduling",
+      "all-or-nothing",
+      "resource deadlocks",
+      "coordinated placement"
+    ]
+  },
+  {
+    "id": "q8",
+    "question": "A Workload defines multiple PodGroupTemplates for a distributed application. Explain how those templates relate to runtime PodGroups and how the scheduler ultimately uses the resulting group information to coordinate Pod placement.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "A Workload is a static long-lived policy template",
+      "A Workload contains PodGroupTemplates",
+      "PodGroupTemplates define distinct components of the workload",
+      "Runtime scheduling state is maintained by PodGroup objects",
+      "Controllers create PodGroup objects from Workload PodGroupTemplates",
+      "PodGroups can then participate in group-level scheduling"
+    ],
+    "expected_source_keywords": [
+      "Workload",
+      "PodGroupTemplates",
+      "PodGroup",
+      "runtime scheduling state",
+      "controller",
+      "scheduling"
+    ]
+  },
+  {
+    "id": "q9",
+    "question": "How does Kubernetes respond when a Node hosting Pods becomes unavailable, and how do self-healing mechanisms interact with workload controllers and the scheduler to restore the desired workload state?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Kubernetes detects that Pods on the failed Node are no longer working",
+      "Workload controllers maintain the desired number of replicas",
+      "Replacement Pods can be created",
+      "The scheduler places replacement Pods on healthy Nodes",
+      "Controllers such as Deployment, ReplicaSet, StatefulSet, and DaemonSet participate in maintaining workloads"
+    ],
+    "expected_source_keywords": [
+      "self-healing",
+      "Node fails",
+      "replacement Pod",
+      "Deployment",
+      "ReplicaSet",
+      "StatefulSet",
+      "DaemonSet",
+      "healthy Node"
+    ]
+  },
+  {
+    "id": "q10",
+    "question": "Why does Kubernetes refuse to schedule a Pod on a node whose current CPU or memory usage appears low when the Pod's requested resources exceed the node's allocatable capacity?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "The scheduler uses resource requests for placement decisions",
+      "Node capacity is checked against the sum of scheduled resource requests",
+      "Actual current CPU or memory usage is not the deciding factor for this capacity check",
+      "A capacity check failure causes the scheduler to reject placement on that node"
+    ],
+    "expected_source_keywords": [
+      "resource requests",
+      "node capacity",
+      "actual memory",
+      "actual CPU",
+      "capacity check",
+      "scheduler"
+    ]
+  },
+  {
+    "id": "q11",
+    "question": "Two machine-learning workloads are submitted simultaneously. Each workload contains multiple Pods, and the scheduler places some Pods from both workloads before cluster capacity becomes insufficient for either workload to finish. Explain the resulting scheduling problem and how PodGroup scheduling addresses it.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 3,
+    "expected_key_points": [
+      "Sequential scheduling can partially schedule competing workloads",
+      "Each workload may consume resources needed by the other",
+      "Neither workload may have enough resources to fully start",
+      "This creates a resource deadlock",
+      "PodGroup scheduling evaluates the group as a single unit",
+      "The entire group must satisfy the scheduling requirements before Pods are bound"
+    ],
+    "expected_source_keywords": [
+      "machine learning",
+      "competing workloads",
+      "resource deadlocks",
+      "PodGroup",
+      "single unit",
+      "resource requirements"
+    ]
+  },
+  {
+    "id": "q12",
+    "question": "A PodGroup requires ten Pods but the cluster can currently accommodate only seven. Explain how gang scheduling handles this situation, including the significance of minCount and the point at which Pods become eligible for active scheduling.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Gang scheduling uses all-or-nothing or minimum-count semantics",
+      "The required minCount determines when the group reaches its scheduling quorum",
+      "Pods are held before entering the active scheduling queue until the required conditions are met",
+      "The scheduler evaluates placement for the group",
+      "If the required group cannot be accommodated, Pods are not partially bound"
+    ],
+    "expected_source_keywords": [
+      "Gang Scheduling",
+      "minCount",
+      "PreEnqueue",
+      "active scheduling queue",
+      "PodGroup",
+      "all-or-nothing"
+    ]
+  },
+  {
+    "id": "q13",
+    "question": "How do voluntary and involuntary Pod disruptions differ, and how would deleting a Pod, draining a Node, a hardware failure, and a kernel panic be classified according to the Kubernetes documentation?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Voluntary disruptions are initiated intentionally by users or administrators",
+      "Involuntary disruptions result from unavoidable failures or system conditions",
+      "Deleting a Pod is a voluntary disruption",
+      "Draining a Node for maintenance is a voluntary disruption",
+      "Hardware failure is an involuntary disruption",
+      "Kernel panic is an involuntary disruption"
+    ],
+    "expected_source_keywords": [
+      "voluntary disruptions",
+      "involuntary disruptions",
+      "deleting a Pod",
+      "Draining a node",
+      "hardware failure",
+      "kernel panic"
+    ]
+  },
+  {
+    "id": "q14",
+    "question": "A Pod contains multiple tightly coupled containers and is later evicted because its node experiences resource pressure. Explain the shared-resource model of the Pod and what happens to the containers when the Pod is evicted.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "A Pod can contain multiple tightly coupled containers",
+      "Containers in a Pod share network and storage resources",
+      "They run in a shared context",
+      "Resource pressure can make the Pod eligible for eviction",
+      "Eviction terminates all containers in the Pod",
+      "Kubernetes may create a replacement Pod"
+    ],
+    "expected_source_keywords": [
+      "Pod",
+      "tightly coupled containers",
+      "shared storage",
+      "shared network",
+      "resource pressure",
+      "eviction",
+      "replacement Pod"
+    ]
+  },
+  {
+    "id": "q15",
+    "question": "How does workload-aware preemption change the way Kubernetes handles an unschedulable PodGroup compared with ordinary Pod preemption, and why does the scheduler treat the PodGroup as a single preemptor unit?",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Workload-aware preemption is designed specifically for PodGroups",
+      "It is used when a PodGroup cannot be scheduled",
+      "The scheduler treats the PodGroup as a single preemptor unit",
+      "The scheduler searches across the cluster for victims to make room for pending Pods",
+      "Other PodGroups can be treated as victims according to their disruption modes",
+      "The mechanism depends on Gang Scheduling and the Workload API"
+    ],
+    "expected_source_keywords": [
+      "Workload-Aware Preemption",
+      "PodGroup",
+      "single preemptor unit",
+      "victims",
+      "Gang Scheduling",
+      "Workload API"
+    ]
+  },
+  {
+    "id": "q16",
+    "question": "A workload uses a PodGroup with gang scheduling, but the referenced PodGroup object does not yet exist even though enough Pods have been created. Will those Pods immediately enter the active scheduling queue? Explain the scheduling lifecycle.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Pods are held in the PreEnqueue phase",
+      "The referenced PodGroup object must exist",
+      "The required Pod count must also satisfy minCount",
+      "Both conditions are required before Pods enter the active scheduling queue",
+      "The scheduler only attempts group placement after the quorum conditions are satisfied"
+    ],
+    "expected_source_keywords": [
+      "PreEnqueue",
+      "PodGroup object",
+      "minCount",
+      "active scheduling queue",
+      "GangScheduling"
+    ]
+  },
+  {
+    "id": "q17",
+    "question": "Explain how resource requests influence both initial Pod placement and later eviction decisions, and distinguish the scheduler's capacity check from resource-pressure-driven eviction.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Resource requests are used when determining whether a Pod can fit on a node",
+      "The scheduler checks requested resources against node capacity",
+      "A Pod can later become an eviction candidate when a node experiences resource pressure",
+      "Exceeding a resource request can contribute to eviction eligibility",
+      "Eviction terminates the containers in the Pod",
+      "Initial scheduling and later eviction are different mechanisms"
+    ],
+    "expected_source_keywords": [
+      "resource requests",
+      "scheduler",
+      "capacity check",
+      "resource pressure",
+      "eviction",
+      "candidate for eviction"
+    ]
+  },
+  {
+    "id": "q18",
+    "question": "Compare the failure behavior of a single Pod managed by a workload controller with the failure of an entire Node hosting multiple Pods. Explain how Kubernetes attempts to restore the desired state in each case.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "Kubernetes restarts failed containers when appropriate",
+      "Workload controllers maintain the desired number of Pod replicas",
+      "A failed Pod can result in a replacement Pod",
+      "A failed Node can cause Pods on that Node to stop working",
+      "Replacement Pods can be scheduled onto healthy Nodes",
+      "Deployment, ReplicaSet, StatefulSet, and DaemonSet controllers participate in workload recovery"
+    ],
+    "expected_source_keywords": [
+      "self-healing",
+      "failed Pod",
+      "Node fails",
+      "replacement Pod",
+      "Deployment",
+      "ReplicaSet",
+      "StatefulSet",
+      "DaemonSet"
+    ]
+  },
+  {
+    "id": "q19",
+    "question": "A cluster has two nodes with 4 CPU units of free capacity each. A Pod requests 6 CPU units. Explain why the Pod cannot be scheduled even though the cluster has 8 CPU units of free capacity in total.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "The scheduler evaluates capacity on individual nodes",
+      "A Pod's resource requests must fit on a single eligible node",
+      "Neither node has enough CPU capacity for the 6 CPU request",
+      "Aggregate cluster capacity cannot be combined to satisfy a single Pod request",
+      "The Pod remains unscheduled when no individual node passes the capacity check"
+    ],
+    "expected_source_keywords": [
+      "node",
+      "CPU",
+      "resource requests",
+      "capacity",
+      "scheduler",
+      "capacity check"
+    ]
+  },
+  {
+    "id": "q20",
+    "question": "Explain how PodGroup scheduling, gang scheduling, and workload-aware preemption can work together when a distributed workload cannot initially fit within the cluster's available resources.",
+    "marks": 5,
+    "alternate_marks": 6,
+    "occurrences": 2,
+    "expected_key_points": [
+      "PodGroup represents the group of Pods as a scheduling unit",
+      "Gang scheduling provides coordinated all-or-nothing placement",
+      "If the PodGroup cannot be scheduled, workload-aware preemption can attempt to make room",
+      "The PodGroup is treated as a single preemptor unit",
+      "Victims can be selected across the cluster",
+      "Workload-aware preemption depends on Gang Scheduling and the Workload API"
+    ],
+    "expected_source_keywords": [
+      "PodGroup",
+      "Gang Scheduling",
+      "Workload-Aware Preemption",
+      "single preemptor unit",
+      "victims",
+      "Workload API"
+    ]
+  }
+]
